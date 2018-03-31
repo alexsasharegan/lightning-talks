@@ -4,6 +4,9 @@
 <head>
   <meta charset="UTF-8">
   <title>&lt;λ&gt;Vue&lt;/λ&gt;</title>
+  <link rel="icon"
+        href="/logo.png"
+        type="image/png">
   <link rel="stylesheet"
         href="/reset.css">
   <link rel="stylesheet"
@@ -17,20 +20,32 @@
   </div>
 
   <script>
+    const whoami = (name, self) => {
+      console.log(`whoami: ${name}`);
+      console.assert(self instanceof Vue, "'this' is not Vue instance.");
+      console.assert(self === window, "'this' is not the global context.");
+    };
+
+
+
     const λ = Vue.extend({
       functional: true,
-      render(h, ctx) {
-        console.log(`this === ${this.constructor.name}:`, this == window);
-        return h('h1', ctx.data, ctx.children)
-      }
+      render(createElement, context) {
+        whoami("λ", this);
+
+        return createElement("h1", context.data, context.children);
+      },
     });
 
     window.app = new Vue({
       el: "#root",
       components: {
         "my-hello": λ,
-      }
-    })
+      },
+      mounted() {
+        whoami("app", this);
+      },
+    });
   </script>
 
 </body>

@@ -18,3 +18,5 @@ function of their props.
 
 * No component object is instantiated
 * _`this`_ is not bound to a component
+
+[Next ->](./docs/example-01.md)
