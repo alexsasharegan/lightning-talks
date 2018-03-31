@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>&lt;λ&gt;Vue&lt;/λ&gt;</title>
+  <link rel="stylesheet"
+        href="/reset.css">
+  <link rel="stylesheet"
+        href="/styles.css">
+  <script src="//unpkg.com/vue/dist/vue.js"></script>
+</head>
+
+<body class="m-3">
+  <div id="root">
+    <my-hello>Hello λλλ</my-hello>
+  </div>
+
+  <script>
+    const λ = Vue.extend({
+      functional: true,
+      render(h, ctx) {
+        console.log(`this === ${this.constructor.name}:`, this == window);
+        return h('h1', ctx.data, ctx.children)
+      }
+    });
+
+    window.app = new Vue({
+      el: "#root",
+      components: {
+        "my-hello": λ,
+      }
+    })
+  </script>
+
+</body>
+
+</html>
