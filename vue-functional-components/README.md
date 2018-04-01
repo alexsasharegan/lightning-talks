@@ -19,4 +19,4 @@ function of their props.
 * No component object is instantiated
 * _`this`_ is not bound to a component
 
-[Next: Component Options &rarr;](./docs/01-component-options.md)
+[Next: About Me &rarr;](./docs/about.md)
