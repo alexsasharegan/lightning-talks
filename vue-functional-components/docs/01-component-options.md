@@ -143,15 +143,19 @@ export interface VNodeData {
 
 One interesting side-effect of deep diving into the `CreateElement` signature is
 that we've covered the basic API of almost all popular virtual dom
-implementations. Libraries like `snabbdom`, `Maquette`, `virtual-dom`, as well
-as `React.createElement` utilize this `tag, ?data, ?children` approach. This is
-why all of them can be expressed via JSX.
+implementations. Libraries like
+[`snabbdom`](https://github.com/snabbdom/snabbdom),
+[`Maquette`](https://maquettejs.org/),
+[`virtual-dom`](https://github.com/Matt-Esch/virtual-dom), as well as
+[`React.createElement`](https://reactjs.org/docs/react-api.html#createelement)
+utilize this `tag, ?data, ?children` approach. This is why all of them can be
+expressed via JSX.
 
 All Vue components are compiled into `createElement` calls. The full Vue.js UMD
 build includes the template compiler. The leaner production builds don't include
-the compiler in the runtime, so ahead of time (AOT) compilation must be done. This is
-one reason why single-file components provide real benefits to the production
-output--they require ahead of time compilation.
+the compiler in the runtime, so ahead of time (AOT) compilation must be done.
+This is one reason why single-file components provide real benefits to the
+production output--they require ahead of time compilation.
 
 So when someone tells you, _"It's just JavaScript"_, this is where the framework
 meets the language. Whether or not that statement is helping anyone is another
