@@ -1,4 +1,4 @@
-# Vue => Component
+# `Vue => Component`
 
 ```html
 <λ>Hello World!</λ>
@@ -19,4 +19,4 @@ function of their props.
 * No component object is instantiated
 * _`this`_ is not bound to a component
 
-[Next ->](./docs/example-01.md)
+[Next: Component Options &rarr;](./docs/01-component-options.md)

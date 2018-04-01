@@ -1,8 +1,8 @@
-# Example 01
+# 01 Component Options
 
 [Basic example](http://localhost:3000/01.html)
 
-## Component Definition
+## The Options Object
 
 Let's use the type definitions from Vue itself to learn the API for functional
 components. We'll start with the options object:
@@ -47,6 +47,8 @@ _\*Note: Given the popularity of JSX and the nature of it's internals, it is
 very common to see the `CreateElement` function aliased to `h`, as this is
 expected to be in scope in JSX transpiled output._
 
+## `CreateElement`
+
 The function signature for `createElement` defines two signatures, or overloads.
 The first has a length _(or arity)_ of two and accepts a tag and children. The
 second accepts a tag, data, and children. All of the arguments are optional, but
@@ -76,6 +78,8 @@ export interface CreateElement {
 }
 ```
 
+### `tag`
+
 From the above we can see that `tag` is a flexible type. It could be one of the
 following:
 
@@ -90,6 +94,8 @@ following:
 * `() => Component`
   * a function that returns `Component`
 
+### `children`
+
 The `children` argument is also a flexible type. For the scope of this document
 it will suffice to say that this could be one of:
 
@@ -98,6 +104,8 @@ it will suffice to say that this could be one of:
 * `Array<VNode | string>`
   * `VNode` is the virtual DOM data structure that represents a DOM Node.
   * again, strings get treated as a shorthand to text nodes
+
+### `data`
 
 Finally for `CreateElement` we'll look at `VNodeData`. This is basically where
 all the Vue & node attributes are placed--everything from Vue directives to DOM
@@ -131,6 +139,26 @@ export interface VNodeData {
 }
 ```
 
+## Virtual DOM
+
+One interesting side-effect of deep diving into the `CreateElement` signature is
+that we've covered the basic API of almost all popular virtual dom
+implementations. Libraries like `snabbdom`, `Maquette`, `virtual-dom`, as well
+as `React.createElement` utilize this `tag, ?data, ?children` approach. This is
+why all of them can be expressed via JSX.
+
+All Vue components are compiled into `createElement` calls. The full Vue.js UMD
+build includes the template compiler. The leaner production builds don't include
+the compiler in the runtime, so ahead of time (AOT) compilation must be done. This is
+one reason why single-file components provide real benefits to the production
+output--they require ahead of time compilation.
+
+So when someone tells you, _"It's just JavaScript"_, this is where the framework
+meets the language. Whether or not that statement is helping anyone is another
+matter...
+
+## `RenderContext`
+
 Now that we've described the signature of the `CreateElement` argument passed
 first to the `render` method, let's look at the `RenderContext` passed second.
 
@@ -162,4 +190,4 @@ window.app = new Vue({
 });
 ```
 
-[Next ->](./example-02.md)
+[Next &rarr;](./example-02.md)
