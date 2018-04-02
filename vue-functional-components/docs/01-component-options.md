@@ -24,18 +24,16 @@ export interface FunctionalComponentOptions<
 }
 ```
 
-Here we can see that a component can optionally pass various props like `name`,
-`render` & `props` just like in a regular component, but now we have a new prop
-to apply, `functional`, and a different signature to the `render` method.
+_\* Note: the `?` in the syntax `{ key?: value }` defines optional properties._
 
-_\* Note: the `?` in the `{ key?: value }` syntax defines optional properties._
-
-Let's get started by defining `functional` as `true` in the component definition
-object and adding a `render` method. Per the definition above, we know that the
-method will be called with the `createElement` function and a `context` object.
+Functional component options omit much of the instance component options like
+`data`, `methods`, `computed`, `watchers`, etc. Adding `functional` as `true`
+and a render method are all we need to get started. Per the definition above, we
+know that the render will be called with the `CreateElement` function and a
+`RenderContext` object.
 
 ```js
-Vue.component({
+const λ = Vue.extends({
   functional: true,
   render(createElement, context) {
     //
@@ -154,17 +152,11 @@ expressed via JSX.
 All Vue components are compiled into `createElement` calls. The full Vue.js UMD
 build includes the template compiler. The leaner production builds don't include
 the compiler in the runtime, so ahead of time (AOT) compilation must be done.
-This is one reason why single-file components provide real benefits to the
-production output--they require ahead of time compilation.
+Single-file components are always AOT compiled.
 
-So when someone tells you, _"It's just JavaScript"_, this is where the framework
-meets the language. Whether or not that statement is helping anyone is another
-matter...
+> _"It's just JavaScript."_ -- ![horse-js](./horse-js_400x400.png)
 
 ## `RenderContext`
-
-Now that we've described the signature of the `CreateElement` argument passed
-first to the `render` method, let's look at the `RenderContext` passed second.
 
 ```ts
 export interface RenderContext<Props = DefaultProps> {
