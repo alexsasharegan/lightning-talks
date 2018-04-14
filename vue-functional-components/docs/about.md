@@ -6,9 +6,9 @@ My name is Alex Regan. You can find me on
 
 ## Work
 
-I currently work at Artisan Colour, Inc. There I spend most of my time creating
-and maintaining full-stack e-commerce applications that make our commercial
-printing facilities available to amateur & professional photo enthusiasts alike.
+I currently work at Artisan Colour, Inc. I spend most of my time creating and
+maintaining full-stack e-commerce applications that bring our commercial
+printing services to amateur & professional photo enthusiasts alike.
 
 [ArtisanHD: Upload, configure, and purchase your art](https://artisanhd.com/secure/uploadconfigure/)
 

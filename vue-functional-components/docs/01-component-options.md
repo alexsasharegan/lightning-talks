@@ -154,7 +154,9 @@ build includes the template compiler. The leaner production builds don't include
 the compiler in the runtime, so ahead of time (AOT) compilation must be done.
 Single-file components are always AOT compiled.
 
-> _"It's just JavaScript."_ -- ![horse-js](./horse-js_400x400.png)
+> _"It's just JavaScript."_ -- HorseJS
+
+![horse-js](./horse-js_100x100.png)
 
 ## `RenderContext`
 
