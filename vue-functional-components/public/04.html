@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>&lt;λ&gt;Vue&lt;/λ&gt;</title>
+  <link rel="icon" href="/assets/logo.png" type="image/png">
+  <link rel="stylesheet" href="/assets/reset.css">
+  <link rel="stylesheet" href="/assets/styles.css">
+  <link rel="stylesheet" href="/assets/vue-flex.css">
+  <script src="/assets/vue.js"></script>
+  <script src="/assets/vue-flex.js"></script>
+  <script src="/assets/vue-functional-data-merge.js"></script>
+</head>
+
+<body>
+  <flex-row id="root">
+    <bill-murray v-for="(w,i) in range" :key="`bill-${i}`" :w="w" :h="200"></bill-murray>
+  </flex-row>
+
+  <script>
+    Vue.use(VueFlex)
+
+    const BillMurray = Vue.extend({
+      props: {
+        w: [Number, String],
+        h: [Number, String],
+      },
+      functional: true,
+      render(createElement, context) {
+        const { data, props, children } = context;
+
+        return createElement("img", {
+          attrs: {
+            src: `https://www.fillmurray.com/${props.w}/${props.h}`,
+            alt: "Bill Murray"
+          }
+        }, children);
+      },
+    });
+
+    window.app = new Vue({
+      el: "#root",
+      components: { BillMurray },
+      data() {
+        return {
+          range: Array.from(
+            { length: 10 },
+            (_, i) => 100 * Math.ceil((1 + i) * Math.random())
+          )
+        }
+      },
+    });
+  </script>
+
+</body>
+
+</html>

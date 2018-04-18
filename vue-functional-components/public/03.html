@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>&lt;λ&gt;Vue&lt;/λ&gt;</title>
+  <link rel="icon" href="/assets/logo.png" type="image/png">
+  <link rel="stylesheet" href="/assets/reset.css">
+  <link rel="stylesheet" href="/assets/styles.css">
+  <link rel="stylesheet" href="/assets/vue-flex.css">
+  <script src="/assets/vue.js"></script>
+  <script src="/assets/vue-flex.js"></script>
+  <script src="/assets/vue-functional-data-merge.js"></script>
+  <style>
+    .vf__flex { margin: -1px; }
+    .vf__flex-dir--row { background-color: rgba(86, 61, 124, .15); }
+    .vf__flex-dir--column { background-color: rgba(255, 0, 0, .1); }
+  </style>
+</head>
+
+<body>
+  <flex-col id="root" class="100vh" no-wrap>
+    <flex-row class="h-100" align-v="center" align-h="center">
+      <my-hello>Hello λλλ</my-hello>
+    </flex-row>
+    <flex-row class="h-100" align-v="center" align-h="center">
+      <my-hello>Hello λλλ</my-hello>
+    </flex-row>
+    <flex-row class="h-100" align-v="center" no-wrap>
+      <flex-row class="w-100 h-100" align-v="center" align-h="center">
+        <my-hello>Hello λλλ</my-hello>
+      </flex-row>
+      <flex-row class="w-100 h-100" align-v="center" align-h="center">
+        <my-hello>Hello λλλ</my-hello>
+      </flex-row>
+    </flex-row>
+  </flex-col>
+
+  <script>
+    Vue.use(VueFlex)
+
+    const λ = Vue.extend({
+      functional: true,
+      render(createElement, context) {
+        const { data, children } = context;
+
+        return createElement("h1", data, children);
+      },
+    });
+
+    window.app = new Vue({
+      el: "#root",
+      components: {
+        "my-hello": λ,
+      },
+    });
+  </script>
+
+</body>
+
+</html>

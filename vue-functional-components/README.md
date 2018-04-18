@@ -6,8 +6,10 @@
 
 ## Functional Components
 
-Functional components are stateless, instance-less components that are purely a
-function of their props.
+Functional components (FC) are stateless, instance-less components that are
+purely a function of their props. FC's offer great performance because they do
+not incur a setup cost for reactive observation nor add a wrapper around the dom
+elements at runtime.
 
 ### Stateless
 

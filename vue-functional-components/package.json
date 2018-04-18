@@ -1,0 +1,15 @@
+{
+  "name": "vue-functional-components",
+  "version": "1.0.0",
+  "description": "```html <λ>Hello World!</λ> ```",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "start": "./serve.sh"
+  },
+  "keywords": [],
+  "author": "Alex Regan",
+  "license": "MIT"
+}

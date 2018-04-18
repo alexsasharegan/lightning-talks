@@ -188,4 +188,4 @@ window.app = new Vue({
 });
 ```
 
-[Next &rarr;](./example-02.md)
+[Next &rarr;](./02-understanding-context.md)

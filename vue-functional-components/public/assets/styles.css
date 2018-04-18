@@ -1,6 +1,8 @@
-body {
+html, body {
   min-height: 100vh;
 }
+
+.text-center {text-align: center;}
 
 .m-1 {margin: .5rem;}
 .m-2 {margin: 1rem;}
@@ -15,3 +17,12 @@ body {
 .p-4 {padding: 3rem;}
 .p-5 {padding: 4rem;}
 .p-6 {padding: 6rem;}
+
+.w-100 {width: 100%;}
+.\31 00vw {height: 100vw;}
+.\35 0vw {height: 50vw;}
+.\32 5vw {height: 25vw;}
+.h-100 {height: 100%;}
+.\31 00vh {height: 100vh;}
+.\35 0vh {height: 50vh;}
+.\32 5vh {height: 25vh;}
