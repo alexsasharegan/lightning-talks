@@ -1,0 +1,18 @@
+{
+  "name": "task-orchestration",
+  "version": "1.0.0",
+  "description": "Synchronously orchestrate your asynchronous tasks with full type safety.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/node": "^11.9.5",
+    "safe-types": "^4.17.0",
+    "ts-node": "^8.0.2",
+    "typescript": "^3.3.3333"
+  }
+}

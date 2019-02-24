@@ -1,0 +1,8 @@
+{
+  "input": "data/crimes.csv",
+  "output": {
+    "callbacks": "data/tmp/callbacks/output.base64.txt",
+    "promises": "data/tmp/promises/output.base64.txt",
+    "tasks": "data/tmp/tasks/output.base64.txt"
+  }
+}
