@@ -25,7 +25,6 @@ function main() {
           let writeContents = writeFile(pathname, contents);
 
           return exists(dirname).and_then(exists => {
-            console.error({ exists });
             if (exists) {
               return writeContents;
             }
