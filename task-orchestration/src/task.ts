@@ -1,28 +1,33 @@
 import * as fs from "fs";
 import * as path from "path";
 import { Task } from "safe-types";
-import { csvLineParse } from "./csv";
-import { configNames, parseConfig, home, Config } from "./globals";
+import {
+  configNames,
+  parseConfig,
+  home,
+  Config,
+  parseCsv,
+  encode,
+} from "./globals";
 
-main();
+const main = resolveConfig(configNames).and_then(conf =>
+  readAndParseCsvToB64(path.join(home, conf.input)).and_then(b64 =>
+    writeOutputFile({ contents: b64, conf })
+  )
+);
 
-function main() {
-  let resolveConf = readFile(configNames[0]);
-  for (let filename of configNames.slice(1)) {
+main.fork({
+  Ok: console.log,
+  Err: console.error,
+});
+
+function resolveConfig(names: string[]): Task<Config, NodeJS.ErrnoException> {
+  let resolveConf = readFile(names[0]);
+  for (let filename of names.slice(1)) {
     resolveConf = resolveConf.or(readFile(filename));
   }
 
-  resolveConf
-    .map(parseConfig)
-    .and_then(conf =>
-      readAndParseCsvToB64(path.join(home, conf.input)).and_then(b64 =>
-        writeOutputFile({ contents: b64, conf })
-      )
-    )
-    .fork({
-      Ok: console.log,
-      Err: console.error,
-    });
+  return resolveConf.map(parseConfig);
 }
 
 function readAndParseCsvToB64(filename: string) {
@@ -40,26 +45,13 @@ function writeOutputFile({ conf, contents }: WriteOutputParams) {
   let pathname = path.join(home, conf.output.tasks);
   let dirname = path.dirname(pathname);
   let writeContents = writeFile(pathname, contents);
+
   return exists(dirname).and_then(exists => {
     if (exists) {
       return writeContents;
     }
     return mkdirp(dirname).and(writeContents);
   });
-}
-
-function encode(data: string[][]): string {
-  return Buffer.from(JSON.stringify(data)).toString("base64");
-}
-
-function parseCsv(contents: string): string[][] {
-  let lines = contents.split("\n");
-  let rows: string[][] = [];
-  for (let line of lines) {
-    rows.push(csvLineParse(line));
-  }
-
-  return rows;
 }
 
 function readFile(filename: string): Task<string, NodeJS.ErrnoException> {

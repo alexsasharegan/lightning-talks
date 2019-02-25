@@ -1,13 +1,19 @@
 import * as fs from "fs";
 import * as path from "path";
-import { csvLineParse } from "./csv";
-import { Config, configNames, home, parseConfig } from "./globals";
+import {
+  Config,
+  configNames,
+  home,
+  parseConfig,
+  encode,
+  parseCsv,
+} from "./globals";
 
 main();
 
 function main() {
   resolveConf(configNames, conf => {
-    parseCsv(path.join(home, conf.input), data => {
+    readAndParseCsv(path.join(home, conf.input), data => {
       fs.writeFile(conf.output.callbacks, encode(data), error => {
         console.error(error);
       });
@@ -15,23 +21,13 @@ function main() {
   });
 }
 
-function encode(data: string[][]): string {
-  return Buffer.from(JSON.stringify(data)).toString("base64");
-}
-
-function parseCsv(filename: string, done: (data: string[][]) => any) {
+function readAndParseCsv(filename: string, done: (data: string[][]) => any) {
   fs.readFile(filename, { encoding: "utf8" }, (error, contents) => {
     if (error) {
       panic(error);
     }
 
-    let lines = contents.split("\n");
-    let rows: string[][] = [];
-    for (let line of lines) {
-      rows.push(csvLineParse(line));
-    }
-
-    done(rows);
+    done(parseCsv(contents));
   });
 }
 
