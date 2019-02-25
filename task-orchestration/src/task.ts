@@ -16,11 +16,31 @@ function main() {
   let readAndParseCsv = (filename: string) => readFile(filename).map(parseCsv);
 
   getConfig
-    .and_then(conf => readAndParseCsv(path.join(home, conf.input)))
+    .and_then(conf =>
+      readAndParseCsv(path.join(home, conf.input))
+        .map(encode)
+        .and_then(contents => {
+          let pathname = path.join(home, conf.output.tasks);
+          let dirname = path.dirname(pathname);
+          let writeContents = writeFile(pathname, contents);
+
+          return exists(dirname).and_then(exists => {
+            console.error({ exists });
+            if (exists) {
+              return writeContents;
+            }
+            return mkdirp(dirname).and(writeContents);
+          });
+        })
+    )
     .fork({
       Ok: console.log,
       Err: console.error,
     });
+}
+
+function encode(data: string[][]): string {
+  return Buffer.from(JSON.stringify(data)).toString("base64");
 }
 
 function parseCsv(contents: string): string[][] {
@@ -42,5 +62,58 @@ function readFile(filename: string): Task<string, NodeJS.ErrnoException> {
 
       Ok(contents);
     });
+  });
+}
+
+function writeFile(
+  filename: string,
+  contents: string
+): Task<void, NodeJS.ErrnoException> {
+  return new Task(({ Ok, Err }) => {
+    fs.writeFile(filename, contents, { encoding: "utf8" }, error => {
+      if (error) {
+        return Err(error);
+      }
+      Ok();
+    });
+  });
+}
+
+function exists(pathname: string): Task<boolean, NodeJS.ErrnoException> {
+  return stat(pathname)
+    .and(Task.of_ok(true))
+    .or(Task.of_ok(false));
+}
+
+function stat(dir: string): Task<fs.Stats, NodeJS.ErrnoException> {
+  return new Task(({ Ok, Err }) => {
+    fs.stat(dir, (error, stats) => {
+      if (error) {
+        return Err(error);
+      }
+
+      Ok(stats);
+    });
+  });
+}
+
+function mkdir(pathname: string): Task<void, NodeJS.ErrnoException> {
+  return new Task(({ Ok, Err }) => {
+    fs.mkdir(pathname, error => {
+      if (error) {
+        return Err(error);
+      }
+      Ok();
+    });
+  });
+}
+
+function mkdirp(nestedPath: string): Task<void, NodeJS.ErrnoException> {
+  return mkdir(nestedPath).or_else(error => {
+    if (error.code !== "ENOENT") {
+      return Task.of_err(error);
+    }
+
+    return mkdirp(path.dirname(nestedPath)).and(mkdir(nestedPath));
   });
 }
