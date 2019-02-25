@@ -1,5 +1,6 @@
 import * as fs from "fs";
 import * as path from "path";
+import { performance } from "perf_hooks";
 import { Task } from "safe-types";
 import {
   configNames,
@@ -10,15 +11,19 @@ import {
   encode,
 } from "./globals";
 
-const main = resolveConfig(configNames).and_then(conf =>
+const app = resolveConfig(configNames).and_then(conf =>
   readAndParseCsvToB64(path.join(home, conf.input)).and_then(b64 =>
     writeOutputFile({ contents: b64, conf })
   )
 );
 
-main.fork({
-  Ok: console.log,
-  Err: console.error,
+let start = performance.now();
+app.run().then(result => {
+  result.match({
+    Ok: console.log,
+    Err: console.error,
+  });
+  console.log("Tasks:", performance.now() - start);
 });
 
 function resolveConfig(names: string[]): Task<Config, NodeJS.ErrnoException> {

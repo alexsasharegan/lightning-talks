@@ -4,6 +4,9 @@
   "description": "Synchronously orchestrate your asynchronous tasks with full type safety.",
   "main": "index.js",
   "scripts": {
+    "test:callback": "ts-node src/callbacks.ts",
+    "test:promise": "ts-node src/promises.ts",
+    "test:task": "ts-node src/task.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

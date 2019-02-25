@@ -1,5 +1,6 @@
 import * as fs from "fs";
 import * as path from "path";
+import { performance } from "perf_hooks";
 import {
   configNames,
   parseConfig,
@@ -12,6 +13,8 @@ import {
 main();
 
 function main() {
+  let start = performance.now();
+
   resolveConfig(configNames)
     .then(conf =>
       readAndParseCsvToB64(path.join(home, conf.input)).then(b64 =>
@@ -19,7 +22,10 @@ function main() {
       )
     )
     .then(console.log)
-    .catch(console.error);
+    .catch(console.error)
+    .then(() => {
+      console.log("Promises:", performance.now() - start);
+    });
 }
 
 function resolveConfig(names: string[]): Promise<Config> {
