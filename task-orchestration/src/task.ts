@@ -2,7 +2,7 @@ import * as fs from "fs";
 import * as path from "path";
 import { Task } from "safe-types";
 import { csvLineParse } from "./csv";
-import { configNames, parseConfig, home } from "./globals";
+import { configNames, parseConfig, home, Config } from "./globals";
 
 main();
 
@@ -12,30 +12,40 @@ function main() {
     resolveConf = resolveConf.or(readFile(filename));
   }
 
-  let getConfig = resolveConf.map(parseConfig);
-  let readAndParseCsv = (filename: string) => readFile(filename).map(parseCsv);
-
-  getConfig
+  resolveConf
+    .map(parseConfig)
     .and_then(conf =>
-      readAndParseCsv(path.join(home, conf.input))
-        .map(encode)
-        .and_then(contents => {
-          let pathname = path.join(home, conf.output.tasks);
-          let dirname = path.dirname(pathname);
-          let writeContents = writeFile(pathname, contents);
-
-          return exists(dirname).and_then(exists => {
-            if (exists) {
-              return writeContents;
-            }
-            return mkdirp(dirname).and(writeContents);
-          });
-        })
+      readAndParseCsvToB64(path.join(home, conf.input)).and_then(b64 =>
+        writeOutputFile({ contents: b64, conf })
+      )
     )
     .fork({
       Ok: console.log,
       Err: console.error,
     });
+}
+
+function readAndParseCsvToB64(filename: string) {
+  return readFile(filename)
+    .map(parseCsv)
+    .map(encode);
+}
+
+interface WriteOutputParams {
+  contents: string;
+  conf: Config;
+}
+
+function writeOutputFile({ conf, contents }: WriteOutputParams) {
+  let pathname = path.join(home, conf.output.tasks);
+  let dirname = path.dirname(pathname);
+  let writeContents = writeFile(pathname, contents);
+  return exists(dirname).and_then(exists => {
+    if (exists) {
+      return writeContents;
+    }
+    return mkdirp(dirname).and(writeContents);
+  });
 }
 
 function encode(data: string[][]): string {
