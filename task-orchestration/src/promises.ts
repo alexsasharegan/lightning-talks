@@ -114,6 +114,6 @@ function mkdirp(dirname: string): Promise<void> {
       return Promise.reject(error);
     }
 
-    return mkdir(path.dirname(dirname)).then(() => mkdir(dirname));
+    return mkdirp(path.dirname(dirname)).then(() => mkdir(dirname));
   });
 }
