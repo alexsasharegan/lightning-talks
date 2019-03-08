@@ -114,6 +114,25 @@ function mkdir(pathname: string): Task<void, NodeJS.ErrnoException> {
   });
 }
 
+/*
+
+make: /a/b/c
+have: /
+
+1: /a/b/c
+  - fails
+  - dirname => /a/b
+2: /a/b
+  - fails
+  - dirname => /a
+3: /a
+  - succeeds
+    - 2 calls its `and` task
+    - succeeds
+      - 1 calls its `and` task
+      - the chain resolves success
+
+ */
 function mkdirp(nestedPath: string): Task<void, NodeJS.ErrnoException> {
   return mkdir(nestedPath).or_else(error => {
     if (error.code !== "ENOENT") {
