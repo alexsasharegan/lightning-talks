@@ -26,7 +26,7 @@ app.run().then(result => {
   console.log("Tasks:", performance.now() - start);
 });
 
-function resolveConfig(names: string[]): Task<Config, NodeJS.ErrnoException> {
+function resolveConfig(names: string[]) {
   let resolveConf = readFile(names[0]);
   for (let filename of names.slice(1)) {
     resolveConf = resolveConf.or(readFile(filename));
