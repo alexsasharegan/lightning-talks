@@ -85,7 +85,7 @@ function writeFile(
   });
 }
 
-function exists(pathname: string): Task<boolean, NodeJS.ErrnoException> {
+function exists(pathname: string) {
   return stat(pathname)
     .and(Task.of_ok(true))
     .or(Task.of_ok(false));
