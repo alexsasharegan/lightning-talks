@@ -7,6 +7,7 @@
     "test:callback": "ts-node src/callbacks.ts",
     "test:promise": "ts-node src/promises.ts",
     "test:task": "ts-node src/task.ts",
+    "test:all": "npm run test:callbacks; npm run test:promise; npm run test:task;",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
