@@ -134,11 +134,13 @@ have: /
 
  */
 function mkdirp(nestedPath: string): Task<void, NodeJS.ErrnoException> {
-  return mkdir(nestedPath).or_else(error => {
+  let mkNestedPath = mkdir(nestedPath);
+
+  return mkNestedPath.or_else(error => {
     if (error.code !== "ENOENT") {
       return Task.of_err(error);
     }
 
-    return mkdirp(path.dirname(nestedPath)).and(mkdir(nestedPath));
+    return mkdirp(path.dirname(nestedPath)).and(mkNestedPath);
   });
 }
